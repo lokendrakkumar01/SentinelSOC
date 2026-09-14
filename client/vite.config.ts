@@ -11,9 +11,9 @@ export default defineConfig({
       interval: 1000
     },
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': 'http://127.0.0.1:5000',
       '/socket.io': {
-        target: 'http://localhost:5000',
+        target: 'http://127.0.0.1:5000',
         ws: true
       }
     }

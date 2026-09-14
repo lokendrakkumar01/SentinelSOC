@@ -44,7 +44,7 @@ export class StreamConsumer {
       }
 
       try {
-        const results = await redisSubscriber.xreadgroup(
+        const results = await (redisSubscriber as any).xreadgroup(
           'GROUP', this.groupName, this.consumerName,
           'BLOCK', 2000,
           'COUNT', 10,

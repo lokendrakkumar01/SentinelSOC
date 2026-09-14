@@ -21,7 +21,7 @@ router.post('/register', authLimiter, async (req, res) => {
     const user = new User({ email, password: hashedPassword, name });
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRY });
+    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRY } as any);
     
     res.status(201).json({ token, user: { id: user._id, email, name, role: user.role } });
   } catch (error) {
@@ -43,7 +43,7 @@ router.post('/login', authLimiter, async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRY });
+    const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRY } as any);
     
     res.json({ token, user: { id: user._id, email, name: user.name, role: user.role } });
   } catch (error) {

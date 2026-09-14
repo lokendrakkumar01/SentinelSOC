@@ -61,7 +61,18 @@ export class StatisticalDetector {
     baseline.lastLoginIP = logEvent.sourceIP;
     
     if (logEvent.geoLocation) {
-      baseline.lastLoginGeo = logEvent.geoLocation;
+      let geo: any = logEvent.geoLocation;
+      if (typeof geo === 'string') {
+        try { geo = JSON.parse(geo); } catch { geo = null; }
+      }
+      if (geo && typeof geo === 'object') {
+        baseline.lastLoginGeo = {
+          lat: typeof geo.lat === 'number' ? geo.lat : undefined,
+          lon: typeof geo.lon === 'number' ? geo.lon : undefined,
+          country: geo.country || '',
+          city: geo.city || ''
+        };
+      }
     }
     
     baseline.updatedAt = new Date();

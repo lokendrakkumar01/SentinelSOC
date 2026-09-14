@@ -9,8 +9,11 @@ export class ImpossibleTravelDetector {
   async analyze(logEvent: ILog): Promise<Partial<IAlert> | null> {
     if (logEvent.action !== 'LOGIN_SUCCESS') return null;
     
-    const currentGeo = logEvent.geoLocation;
-    if (!currentGeo || !currentGeo.lat || !currentGeo.lon) return null;
+    let currentGeo: any = logEvent.geoLocation;
+    if (typeof currentGeo === 'string') {
+      try { currentGeo = JSON.parse(currentGeo); } catch { currentGeo = null; }
+    }
+    if (!currentGeo || typeof currentGeo.lat !== 'number' || typeof currentGeo.lon !== 'number') return null;
 
     const baseline = await UserBaseline.findOne({ username: logEvent.username });
     if (!baseline || !baseline.lastLoginGeo || !baseline.lastLoginGeo.lat || !baseline.lastLoginGeo.lon || !baseline.lastLoginAt) {
@@ -27,7 +30,7 @@ export class ImpossibleTravelDetector {
     if (timeDeltaHours <= 0) return null; // Avoid division by zero or negative time
 
     const distanceKm = haversineDistance(
-      lastGeo.lat, lastGeo.lon,
+      lastGeo.lat!, lastGeo.lon!,
       currentGeo.lat, currentGeo.lon
     );
 

@@ -54,7 +54,7 @@ router.get('/stats', authMiddleware, async (req, res) => {
       return acc;
     }, {} as Record<string, number>);
 
-    const activeAlertsCount = Object.values(openAlertsObj).reduce((a, b) => a + b, 0);
+    const activeAlertsCount = (Object.values(openAlertsObj) as number[]).reduce((a, b) => a + b, 0);
     const criticalAlertsCount = openAlertsObj['CRITICAL'] || 0;
     const blockedCount = autoResponseService.getBlockedIPs().length;
 

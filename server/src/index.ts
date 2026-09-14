@@ -36,7 +36,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/response', responseRoutes);
 
 // Health check
-app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
+app.get('/health', (_req: express.Request, res: express.Response) => res.status(200).json({ status: 'ok' }));
 
 const consumer = new StreamConsumer();
 

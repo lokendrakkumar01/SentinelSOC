@@ -20,7 +20,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     if (!isAuthenticated || !token) return;
 
-    const socketUrl = import.meta.env.VITE_API_URL ? String(import.meta.env.VITE_API_URL).replace(/\/$/, '') : undefined;
+    const rawSocketUrl = (import.meta as any)?.env?.VITE_API_URL;
+    const socketUrl = rawSocketUrl ? String(rawSocketUrl).replace(/\/$/, '') : undefined;
     const newSocket = io(socketUrl, {
       auth: { token },
       reconnectionDelay: 1000,

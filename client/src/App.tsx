@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage';
 import AlertDetailPage from './pages/AlertDetailPage';
 import AlertsPage from './pages/AlertsPage';
 import BlockedIPsPage from './pages/BlockedIPsPage';
+import LogsPage from './pages/LogsPage';
 import Layout from './components/layout/Layout';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -62,6 +63,16 @@ const AppRoutes = () => {
           <ProtectedRoute>
             <Layout>
               <AlertDetailPage />
+            </Layout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/logs" 
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <LogsPage />
             </Layout>
           </ProtectedRoute>
         } 

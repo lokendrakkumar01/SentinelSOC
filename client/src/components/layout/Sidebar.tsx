@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Bell, Shield, LogOut, ShieldAlert } from 'lucide-react';
+import { Home, Bell, Shield, LogOut, ShieldAlert, Terminal } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface SidebarProps {
@@ -14,6 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: Home },
     { name: 'Alerts', path: '/alerts', icon: Bell },
+    { name: 'Logs Explorer', path: '/logs', icon: Terminal },
     { name: 'Blocked IPs', path: '/blocked', icon: Shield },
   ];
 

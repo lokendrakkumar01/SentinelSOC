@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Log from '../models/Log';
 import Alert from '../models/Alert';
+import BlockedIP from '../models/BlockedIP';
 import { autoResponseService } from '../services/autoResponseService';
 import { authMiddleware } from '../middleware/authMiddleware';
 
@@ -56,7 +57,7 @@ router.get('/stats', authMiddleware, async (req, res) => {
 
     const activeAlertsCount = (Object.values(openAlertsObj) as number[]).reduce((a, b) => a + b, 0);
     const criticalAlertsCount = openAlertsObj['CRITICAL'] || 0;
-    const blockedCount = autoResponseService.getBlockedIPs().length;
+    const blockedCount = await BlockedIP.countDocuments({ isActive: true });
 
     res.json({
       totalLogs,

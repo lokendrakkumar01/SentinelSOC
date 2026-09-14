@@ -20,8 +20,12 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     if (!isAuthenticated || !token) return;
 
+    const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    const defaultBackend = 'https://sentinelsoc-server.onrender.com';
     const rawSocketUrl = (import.meta as any)?.env?.VITE_API_URL;
-    const socketUrl = rawSocketUrl ? String(rawSocketUrl).replace(/\/$/, '') : undefined;
+    const socketUrl = rawSocketUrl 
+      ? String(rawSocketUrl).replace(/\/$/, '') 
+      : (isLocal ? undefined : defaultBackend);
     const newSocket = io(socketUrl, {
       auth: { token },
       reconnectionDelay: 1000,

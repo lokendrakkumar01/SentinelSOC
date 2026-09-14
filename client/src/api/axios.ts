@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 const rawApiUrl = (import.meta as any)?.env?.VITE_API_URL;
-const backendUrl = rawApiUrl ? String(rawApiUrl).replace(/\/$/, '') : '';
+const defaultBackend = 'https://sentinelsoc-server.onrender.com';
+const backendUrl = rawApiUrl 
+  ? String(rawApiUrl).replace(/\/$/, '') 
+  : (isLocal ? '' : defaultBackend);
 
 const api = axios.create({
   baseURL: backendUrl ? `${backendUrl}/api` : '/api',
